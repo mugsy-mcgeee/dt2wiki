@@ -20,6 +20,6 @@ public class Main {
         }
 
         DTMap dtTree = new TreeConstructor(match).construct();
-        new TreeTraverser(new Basic()).toStdOut(dtTree);
+        new TreeTraverser(new Basic()).writeDetails(dtTree);
     }
 }

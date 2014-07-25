@@ -1,12 +1,14 @@
 package skadistats.dt2wiki;
 
 import java.util.*;
+import java.io.*;
 
 import skadistats.dt2wiki.format.Formatter;
 import skadistats.clarity.model.DTClass;
 
 public class TreeTraverser {
 
+    final private String dirPrefix = "dt2wiki-data/";
     protected Formatter fmt;
     protected DTMap dtMap;
 
@@ -27,4 +29,25 @@ public class TreeTraverser {
             }
         }
     }
+
+    public void writeDetails(DTMap dtMap) throws IOException {
+        this.dtMap = dtMap;
+
+        for (DTClass cls : dtMap.keySet()) {
+            if (cls == null)
+                continue;
+
+            String dirName = dirPrefix + "SendTable(2f)" + cls.getDtName();
+            new File(dirName).mkdirs();
+            new File(dirName+"/revisions").mkdir();
+
+            OutputStream fileOut = new FileOutputStream(dirName+"/current");
+            fileOut.write("00000001\n".getBytes());
+            fileOut.close();
+
+            fileOut = new FileOutputStream(dirName+"/revisions/00000001");
+            fileOut.write(fmt.dtDetails(cls).getBytes());
+        }
+    }
+
 }
